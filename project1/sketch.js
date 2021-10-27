@@ -26,7 +26,6 @@ function setup() {
       {
         if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,target_main.x,target_main.y) < 50)
         {
-          console.log(dist(sx,sy,decoys[j].x,decoys[j].y));
           temp = false;
           //break; //APPARENTLY BREAK DOESNT EXIST IN P5JS
         }
@@ -40,14 +39,15 @@ function setup() {
   }
 }
 
-function target(x,y,size)
+function target(x,y,size,color)
 {
   noStroke();
-  fill(255,0,0);
+  fill(color);
+  //console.log(color);
   ellipse(x,y,size,size);
   fill(255);
   ellipse(x,y,size*2/3,size*2/3);
-  fill(255,0,0);
+  fill(color);
   ellipse(x,y,size/3,size/3);
 }
 
@@ -99,7 +99,7 @@ class Target2
 
   display()
   {
-    target(this.x,this.y,this.size,this.size);
+    target(this.x,this.y,this.size,color(255,0,0));
   }
 
   bounce() //bouncy ball behavior
@@ -127,11 +127,12 @@ class Decoy_target
     this.size = size_;
     this.velocity = createVector(random(-1,1),random(-1,1))
     this.velocity.normalize();
+    this.color = color(random(0,255),random(0,255),random(0,255));
   }
 
   display()
   {
-    target(this.x,this.y,this.size,this.size);
+    target(this.x,this.y,this.size,this.color);
   }
 
   bounce() //bouncy ball behavior
