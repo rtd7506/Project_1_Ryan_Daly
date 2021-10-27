@@ -14,18 +14,28 @@ function setup() {
   target_main = new Target2(400,225,50);
   for (let i=0; i<10; i++)
   {
-    let sx = random(25,775); //spawn x and y
-    let sy = random(25,425);
-    for (let j=0; j<decoys.length; j++)
+    let sx = 0;
+    let sy = 0;
+    let clear = false;
+    while (clear == false)
     {
-      //console.log("Re");
-      while (dist(sx,sy,decoys[j].x,decoys[j].y) < 100 && j!=0) //loops it until they are spaced out
+      let temp = true // temp variable to store whether to stop the loop
+      sx = random(25,775); //spawn x and y
+      sy = random(25,425);
+      for (let j=0; j<decoys.length; j++)
       {
-        console.log(dist(sx,sy,decoys[j].x,decoys[j].y));
-        sx = random(25,775);
-        sy = random(25,425);
+        if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,target_main.x,target_main.y) < 50)
+        {
+          console.log(dist(sx,sy,decoys[j].x,decoys[j].y));
+          temp = false;
+          //break; //APPARENTLY BREAK DOESNT EXIST IN P5JS
+        }
+        //console.log());
+
       }
+      clear = temp;
     }
+    
     append(decoys, new Decoy_target(sx, sy,50));
   }
 }
@@ -50,7 +60,7 @@ function draw()
   for (let i=0; i<decoys.length; i++)
   {
     decoys[i].display();
-    //decoys[i].bounce();
+    decoys[i].bounce();
   }
 }
 
