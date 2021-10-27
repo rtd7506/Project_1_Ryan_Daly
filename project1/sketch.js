@@ -5,14 +5,19 @@
 let tx, ty;
 let target2;
 let dt1;
+let decoys = [];
 
 function setup() {
   createCanvas(800, 450);
   background(0);
   tx = 400;
   ty = 225;
-  target_main = new Target2(400,225,100);
-  dt1 = new Decoy_target(200,200,100);
+  target_main = new Target2(400,225,50);
+  dt1 = new Decoy_target(200,200,50);
+  for (let i=0; i<10; i++)
+  {
+    append(decoys, new Decoy_target(random(25,775), random(25,425),50));
+  }
 }
 
 function target(x,y,size)
@@ -34,7 +39,11 @@ function draw()
   target_main.bounce();
   dt1.display();
   dt1.bounce();
-  
+  for (let i=0; i<decoys.length; i++)
+  {
+    decoys[i].display();
+    decoys[i].bounce();
+  }
 }
 
 function test1()
