@@ -5,8 +5,12 @@
 let tx, ty;
 let target2;
 let decoys = [];
+let fadeTimer = 0;
+let transition = false;
+let t2 = false;
 
-function setup() {
+function setup() 
+{
   createCanvas(800, 450);
   background(0);
   tx = 400;
@@ -49,19 +53,62 @@ function target(x,y,size,color)
   ellipse(x,y,size*2/3,size*2/3);
   fill(color);
   ellipse(x,y,size/3,size/3);
-}
 
+}
 function draw() 
 {
-  //target(400,225,50);
   background(0);
   target_main.display();
-  target_main.bounce();
+  
   for (let i=0; i<decoys.length; i++)
   {
     decoys[i].display();
-    decoys[i].bounce();
   }
+  
+
+  if (dist(touchX,touchY,target_main.x,target_main.y)<75)
+  {
+    console.log("GET AWAY FROM ME YOU HEATHEN!");
+    transition = true;
+    //fadeOut();
+  }
+
+  if (transition == true)
+  {
+    fadeTimer+=50;
+    fill(255);
+    noStroke();
+    
+    if (fadeTimer>1600)
+    {
+      if (t2 == false)
+      {
+        target_main.x = random(25,775);
+        target_main.y = random(25,425);
+        t2 = true;
+      }
+      fill(255,map((fadeTimer-1600),0,850,255,0));
+      console.log(map((fadeTimer-1600),0,850,255,0));
+    }
+    if (fadeTimer>2400)
+    {
+      fadeTimer = 0;
+      transition = false;
+    }
+    ellipse(target_main.x,target_main.y, fadeTimer,fadeTimer);
+    
+    
+  }
+  else
+  {
+    target_main.bounce();
+    for (let i=0; i<decoys.length; i++)
+    {
+      decoys[i].bounce();
+    }
+    t2=false;
+  }
+
 }
 
 function test1()
@@ -86,87 +133,4 @@ function mousePressed()
 
 }
 
-class Target2
-{
-  constructor(x_,y_,size_)
-  {
-    this.x = x_;
-    this.y = y_;
-    this.size = size_;
-    this.velocity = createVector(random(-1,1),random(-1,1))
-    this.velocity.normalize();
-  }
 
-  display()
-  {
-    target(this.x,this.y,this.size,color(255,0,0));
-  }
-
-  bounce() //bouncy ball behavior
-  {
-    this.x += this.velocity.x*2.5;
-    this.y += this.velocity.y*2.5;
-    
-    if(this.x < this.size/2 || this.x > 800-this.size/2)
-    {
-      this.velocity.x = this.velocity.x*-1
-    }
-    if(this.y < this.size/2 || this.y > 450-this.size/2)
-    {
-      this.velocity.y = this.velocity.y*-1
-    }
-  }
-}
-
-class Decoy_target
-{
-  constructor(x_,y_,size_)
-  {
-    this.x = x_;
-    this.y = y_;
-    this.size = size_;
-    this.velocity = createVector(random(-1,1),random(-1,1))
-    this.velocity.normalize();
-    this.color = color(random(0,255),random(0,255),random(0,255));
-  }
-
-  display()
-  {
-    target(this.x,this.y,this.size,this.color);
-  }
-
-  bounce() //bouncy ball behavior
-  {
-    this.x += this.velocity.x*2.5;
-    this.y += this.velocity.y*2.5;
-    
-    if(this.x < this.size/2 || this.x > 800-this.size/2)
-    {
-      this.velocity.x = this.velocity.x*-1
-    }
-    if(this.y < this.size/2 || this.y > 450-this.size/2)
-    {
-      this.velocity.y = this.velocity.y*-1
-    }
-
-    for (let i=0; i<decoys.length; i++)
-    {
-      let d = dist(this.x,this.y,decoys[i].x,decoys[i].y);
-      if (d < this.size && d != 0)
-      {
-        let temp = this.velocity;
-        this.velocity = decoys[i].velocity;
-        decoys[i].velocity = temp;
-      }
-    }
-    
-    if (dist(this.x,this.y,target_main.x,target_main.y) < this.size)
-    {
-      let temp = this.velocity;
-      this.velocity = target_main.velocity;
-      target_main.velocity = temp;
-
-    }
-    
-  }
-}
