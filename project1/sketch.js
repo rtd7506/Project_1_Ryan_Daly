@@ -9,6 +9,7 @@ let fadeTimer = 0;
 let transition = false;
 let t2 = false;
 let changeTimer = 0;
+let stageCount = 0;
 
 function setup() 
 {
@@ -17,31 +18,7 @@ function setup()
   tx = 400;
   ty = 225;
   target_main = new Target2(400,225,50);
-  for (let i=0; i<10; i++)
-  {
-    let sx = 0;
-    let sy = 0;
-    let clear = false;
-    while (clear == false)
-    {
-      let temp = true // temp variable to store whether to stop the loop
-      sx = random(25,775); //spawn x and y
-      sy = random(25,425);
-      for (let j=0; j<decoys.length; j++)
-      {
-        if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,target_main.x,target_main.y) < 50)
-        {
-          temp = false;
-          //break; //APPARENTLY BREAK DOESNT EXIST IN P5JS
-        }
-        //console.log());
-
-      }
-      clear = temp;
-    }
-    
-    append(decoys, new Decoy_target(sx, sy,50));
-  }
+  spawnDecoys(stageCount);
 }
 
 function target(x,y,size,color)
@@ -80,7 +57,10 @@ function draw()
   }
   else
   {
-    target_main.bounce();
+    if (stageCount > 0)
+    {
+      target_main.bounce();
+    }
     for (let i=0; i<decoys.length; i++)
     {
       decoys[i].bounce();
@@ -89,9 +69,34 @@ function draw()
     changeTimer+=1;
     console.log(changeTimer);
   }
+}
 
-  
+function spawnDecoys(count)
+{
+  for (let i=0; i<count; i++)
+  {
+    let sx = 0;
+    let sy = 0;
+    let clear = false;
+    while (clear == false)
+    {
+      let temp = true // temp variable to store whether to stop the loop
+      sx = random(25,775); //spawn x and y
+      sy = random(25,425);
+      for (let j=0; j<decoys.length; j++)
+      {
+        if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,target_main.x,target_main.y) < 50)
+        {
+          temp = false;
+          //break; //APPARENTLY BREAK DOESNT EXIST IN P5JS
+        }
+        //console.log());
 
+      }
+      clear = temp;
+    }
+    append(decoys, new Decoy_target(sx, sy,50));
+  }
 }
 
 function fadeOut()
@@ -105,8 +110,12 @@ function fadeOut()
   {
     if (t2 == false)
     {
+      decoys = [];
       target_main.x = random(25,775);
       target_main.y = random(25,425);
+      stageCount+=1;
+      
+      spawnDecoys(stageCount*2);
       t2 = true;
     }
     fill(255,map((fadeTimer-1600),0,850,255,0));
