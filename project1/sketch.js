@@ -8,6 +8,7 @@ let decoys = [];
 let fadeTimer = 0;
 let transition = false;
 let t2 = false;
+let changeTimer = 0;
 
 function setup() 
 {
@@ -72,31 +73,9 @@ function draw()
     transition = true;
     //fadeOut();
   }
-
-  if (transition == true)
+  if (transition == true || changeTimer > 300)
   {
-    fadeTimer+=50;
-    fill(255);
-    noStroke();
-    
-    if (fadeTimer>1600)
-    {
-      if (t2 == false)
-      {
-        target_main.x = random(25,775);
-        target_main.y = random(25,425);
-        t2 = true;
-      }
-      fill(255,map((fadeTimer-1600),0,850,255,0));
-      console.log(map((fadeTimer-1600),0,850,255,0));
-    }
-    if (fadeTimer>2400)
-    {
-      fadeTimer = 0;
-      transition = false;
-    }
-    ellipse(target_main.x,target_main.y, fadeTimer,fadeTimer);
-    
+    fadeOut();
     
   }
   else
@@ -107,8 +86,43 @@ function draw()
       decoys[i].bounce();
     }
     t2=false;
+    changeTimer+=1;
+    console.log(changeTimer);
   }
 
+  
+
+}
+
+function fadeOut()
+{
+  
+  fadeTimer+=40;
+  fill(255);
+  noStroke();
+    
+  if (fadeTimer>1600)
+  {
+    if (t2 == false)
+    {
+      target_main.x = random(25,775);
+      target_main.y = random(25,425);
+      t2 = true;
+    }
+    fill(255,map((fadeTimer-1600),0,850,255,0));
+    console.log(map((fadeTimer-1600),0,850,255,0));
+  }
+  if (fadeTimer>2400)
+  {
+    fadeTimer = 0;
+    transition = false;
+    changeTimer = 0;
+  }
+  ellipse(target_main.x,target_main.y, fadeTimer,fadeTimer);
+    
+    
+  
+  
 }
 
 function test1()
