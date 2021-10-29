@@ -14,7 +14,8 @@ let t2 = false;
 let changeTimer = 0;
 let stageCount = 0;
 //Screen2
-let scroll1;
+let scrolls = [];
+let steps;
 
 
 function setup() 
@@ -25,8 +26,14 @@ function setup()
   ty = 225;
   //Screen1
   target_main = new Target2(400,225,50);
-  scroll1 = new Scroll(400);
+  for (let j = 0; j < 3; j++) 
+  {
+    append(scrolls, new Scroll(250+j*150))
+  }
   spawnDecoys(stageCount);
+  steps = [30*2,30*(int(random(1,5))+5),30*(int(random(1,5)+10))]
+  scrollRand();
+  //steps = [30,180,330];
 }
 
 function target(x,y,size,color)
@@ -51,7 +58,7 @@ function draw()
       decoys[i].display();
     }
     if (dist(touchX, touchY, target_main.x, target_main.y) < 75) {
-      console.log("GET AWAY FROM ME YOU HEATHEN!");
+      //console.log("GET AWAY FROM ME YOU HEATHEN!");
       transition = true;
       //fadeOut();
     }
@@ -72,7 +79,16 @@ function draw()
   }
   else if (screen == 1)
   {
-    scroll1.display();
+    for (let j = 0; j < 3; j++) 
+    {
+      scrolls[j].display();
+      if (steps[j] >= 0)
+      {
+        steps[j]-=1;
+        scrolls[j].scroll();
+        //console.log(steps);
+      }
+    }
   }
 }
 
@@ -121,7 +137,7 @@ function fadeOut()
       t2 = true;
     }
     fill(255,map((fadeTimer-1600),0,850,255,0));
-    console.log(map((fadeTimer-1600),0,850,255,0));
+    //console.log(map((fadeTimer-1600),0,850,255,0));
   }
   if (fadeTimer>2400)
   {
@@ -150,6 +166,45 @@ function test1()
   }
   background(0);
   ellipse(tx,ty,50,50);
+}
+
+function scrollRand()
+{
+  let test = int(random(0,5));
+  let currOrder = [0,0,0];
+  let desOrder = [2,1,1];
+  for (let i=0; i<3; i++)
+  {
+    currOrder[i] = int((scrolls[i].yInit[0]+75)/150);
+  }
+  console.log(test);
+  switch(test)
+  {
+    case 0:
+      desOrder = [2,1,1];
+      break;
+    case 1:
+      desOrder = [0,1,1];
+      break;
+    case 2:
+      desOrder = [1,2,1];
+      break;
+    case 3:
+      desOrder = [1,0,1];
+      break;
+    case 4:
+      desOrder = [1,1,0];
+      break;
+    case 5:
+      desOrder = [1,1,2];
+      break;
+      
+  }
+  for (let j=0; j<3; j++)
+  {
+    steps[j] = (6-currOrder[j]+desOrder[j])*30+j*150;//+j*225;
+    //console.log((6-currOrder[j]+desOrder[j])*30);
+  }
 }
 
 function mousePressed()

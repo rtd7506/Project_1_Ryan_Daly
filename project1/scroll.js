@@ -6,39 +6,27 @@ class Scroll
         this.x = x_;
         this.yScroll = 225;
         this.yInit = [-75, 75, 225, 375, 525, 675]
+        this.stepCounter = 0;
     }
 
-    display() {
-        //target(this.x-scale*1.5,225,scale,color(255,0,0));
-
-        //target(this.x+scale*1.5,225,scale,color(255,0,0));
-
-        //this.box(this.x,275,scale);
-        //this.pent(this.x,350,scale);
-
-        for (let j = 0; j < 2; j++) 
+    display() 
+    {
+        for (let i = 0; i < 6; i++) 
         {
-            for (let i = 0; i < 6; i++) 
+            this.drawShape(this.x, this.yInit[i], this.scale, i);
+            if (this.yInit[i] >= 675) 
             {
-                this.drawShape(this.x, this.yInit[i], this.scale, i);
-                this.yInit[i] += 3
-                if (this.yInit[i] > 675) 
-                {
-                    this.yInit[i] = -75;
-                }
+                this.yInit[i] = -75;
             }
         }
-
-
-        //this.drawShape(this.x,this.yScroll+this.scale*1.5*0,this.scale,0);
-        //target(this.x,this.yScroll,scale,color(255,0,0));
-        //this.tri(this.x,this.yScroll+scale*1.5,scale*2/3);
-        //this.hex(this.x,this.yScroll-scale*1.5,scale*2/3);
-        //this.yScroll+=1;
-        //if (this.yScroll>450+scale)
-        //{
-        //    this.yScroll = -scale;
-        //}
+    }
+    //((scrolls[i].yInit[0]+75)/5)
+    scroll()
+    {
+        for (let i = 0; i < 6; i++) 
+        {
+            this.yInit[i] += 5;
+        }
     }
 
     drawShape(x, y, scale, type) 
