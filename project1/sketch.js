@@ -15,7 +15,6 @@ let changeTimer = 0;
 let stageCount = 0;
 //Screen2
 let scrolls = [];
-let steps;
 
 
 function setup() 
@@ -28,7 +27,7 @@ function setup()
   target_main = new Target2(400,225,50);
   for (let j = 0; j < 3; j++) 
   {
-    append(scrolls, new Scroll(250+j*150))
+    append(scrolls, new Scroll(100+j*150))
   }
   spawnDecoys(stageCount);
   steps = [30*2,30*(int(random(1,5))+5),30*(int(random(1,5)+10))]
@@ -79,6 +78,67 @@ function draw()
   }
   else if (screen == 1)
   {
+    //UI
+    //Button
+    strokeWeight(10);
+    if (steps[2]>0)
+    {
+      fill(150);
+      stroke(100);
+      rect(625,350,225,90);
+    }
+    else
+    {
+      fill(200);
+      stroke(150);
+      rect(625,350,250,100);
+    }
+    textSize(32);
+    if (steps[2]<0)
+    {
+      fill(255);
+      stroke(150);
+      strokeWeight(10);
+      textAlign(CENTER,CENTER);
+      text("Click to Spin!", 625,350);
+    } 
+    //Info Box
+    stroke(150);
+    fill(200);
+    rect(625,150,225,225)
+    fill(255);
+    stroke(150);
+    textAlign(CENTER,CENTER);
+    textSize(40);
+    strokeWeight(10);
+    text("Get Three",625,75);
+    //strokeWeight(0);
+    text("To Win!",625,225);
+    noStroke();
+    fill(200);
+    rect(625,185,40,35);
+    rect(625,249,40,17);
+    textSize(42);
+    //Overlay
+    fill(200,75);
+    noStroke();
+    rect(250,225,425,125);
+    //Example Target
+    fill(150);
+    ellipse(625,145,90,90);
+    if (dist(touchX,touchY,625,145)<75)
+    {
+      textSize(30);
+      fill(255);
+      stroke(150);
+      text("No!", 625,145)
+    }
+    else
+    {
+      target(625,145,75,color(255,0,0));
+    }
+    
+    //Scroll
     for (let j = 0; j < 3; j++) 
     {
       scrolls[j].display();
@@ -86,7 +146,6 @@ function draw()
       {
         steps[j]-=1;
         scrolls[j].scroll();
-        //console.log(steps);
       }
     }
   }
