@@ -3,7 +3,8 @@
 // limit speed
 
 //General
-let screen = 1;
+let screen = 0;
+let tTimer = 0;
 //Screen1
 let tx, ty;
 let target2;
@@ -15,6 +16,8 @@ let changeTimer = 0;
 let stageCount = 0;
 //Screen2
 let scrolls = [];
+let scrollTimer = 0;
+let scrollCount = 0;
 
 
 function setup() 
@@ -137,6 +140,19 @@ function draw()
     {
       target(625,145,75,color(255,0,0));
     }
+    //Scroll Timer
+    if (steps[2] < 0)
+    {
+      scrollTimer+=1;
+    }
+    else
+    {
+      scrollTimer = 0;
+    }
+    if (scrollTimer > 300)
+    {
+      scrollRand();
+    }
     
     //Scroll
     for (let j = 0; j < 3; j++) 
@@ -148,7 +164,35 @@ function draw()
         scrolls[j].scroll();
       }
     }
+
+    if (scrollCount > 7)
+    {
+      screenChange(450,225);
+    }
   }
+}
+
+function screenChange(x,y)
+{
+  tTimer+=40;
+  fill(255);
+  noStroke();
+  if (tTimer>1600)
+  {
+    fill(255,map((tTimer-1600),0,850,255,0));
+    
+  }
+  if (tTimer == 1640)
+  {
+    screen+=1;
+    console.log(screen);
+  }
+  if (tTimer>2400)
+  {
+    tTimer = 0;
+    
+  }
+  ellipse(x,y, tTimer,tTimer);
 }
 
 function spawnDecoys(count)
@@ -198,15 +242,15 @@ function fadeOut()
     fill(255,map((fadeTimer-1600),0,850,255,0));
     //console.log(map((fadeTimer-1600),0,850,255,0));
   }
+  if (fadeTimer == 1600 && stageCount >7)
+  {
+    screen+=1;
+  }
   if (fadeTimer>2400)
   {
     fadeTimer = 0;
     transition = false;
     changeTimer = 0;
-    if (stageCount > 7)
-    {
-      screen+=1;
-    }
   }
   ellipse(target_main.x,target_main.y, fadeTimer,fadeTimer);
 }
@@ -229,14 +273,16 @@ function test1()
 
 function scrollRand()
 {
-  let test = int(random(0,5));
+  scrollCount+=1;
+  console.log(scrollCount);
+  let test = int(random(0,6));
   let currOrder = [0,0,0];
   let desOrder = [2,1,1];
   for (let i=0; i<3; i++)
   {
     currOrder[i] = int((scrolls[i].yInit[0]+75)/150);
   }
-  console.log(test);
+  //console.log(test);
   switch(test)
   {
     case 0:
@@ -268,10 +314,9 @@ function scrollRand()
 
 function touchStarted()
 {
-  console.log(steps);
+  //console.log(steps);
   if (screen == 1 && steps[2] == -1)
   {
-    console.log("YES");
     scrollRand();
   }
 }
