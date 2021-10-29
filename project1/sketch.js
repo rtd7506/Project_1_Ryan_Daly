@@ -2,6 +2,9 @@
 // limit array size
 // limit speed
 
+//General
+let screen = 1;
+//Screen1
 let tx, ty;
 let target2;
 let decoys = [];
@@ -10,6 +13,9 @@ let transition = false;
 let t2 = false;
 let changeTimer = 0;
 let stageCount = 0;
+//Screen2
+let scroll1;
+
 
 function setup() 
 {
@@ -17,7 +23,9 @@ function setup()
   background(0);
   tx = 400;
   ty = 225;
+  //Screen1
   target_main = new Target2(400,225,50);
+  scroll1 = new Scroll(400);
   spawnDecoys(stageCount);
 }
 
@@ -36,38 +44,35 @@ function target(x,y,size,color)
 function draw() 
 {
   background(0);
-  target_main.display();
-  
-  for (let i=0; i<decoys.length; i++)
+  if (screen == 0)
   {
-    decoys[i].display();
-  }
-  
-
-  if (dist(touchX,touchY,target_main.x,target_main.y)<75)
-  {
-    console.log("GET AWAY FROM ME YOU HEATHEN!");
-    transition = true;
-    //fadeOut();
-  }
-  if (transition == true || changeTimer > 300)
-  {
-    fadeOut();
-    
-  }
-  else
-  {
-    if (stageCount > 0)
-    {
-      target_main.bounce();
+    target_main.display();
+    for (let i = 0; i < decoys.length; i++) {
+      decoys[i].display();
     }
-    for (let i=0; i<decoys.length; i++)
-    {
-      decoys[i].bounce();
+    if (dist(touchX, touchY, target_main.x, target_main.y) < 75) {
+      console.log("GET AWAY FROM ME YOU HEATHEN!");
+      transition = true;
+      //fadeOut();
     }
-    t2=false;
-    changeTimer+=1;
-    console.log(changeTimer);
+    if (transition == true || changeTimer > 300) {
+      fadeOut();
+    }
+    else {
+      if (stageCount > 0) {
+        target_main.bounce();
+      }
+      for (let i = 0; i < decoys.length; i++) {
+        decoys[i].bounce();
+      }
+      t2=false;
+      changeTimer+=1;
+      //console.log(changeTimer);
+    }
+  }
+  else if (screen == 1)
+  {
+    scroll1.display();
   }
 }
 
@@ -91,7 +96,6 @@ function spawnDecoys(count)
           //break; //APPARENTLY BREAK DOESNT EXIST IN P5JS
         }
         //console.log());
-
       }
       clear = temp;
     }
@@ -105,7 +109,6 @@ function fadeOut()
   fadeTimer+=40;
   fill(255);
   noStroke();
-    
   if (fadeTimer>1600)
   {
     if (t2 == false)
@@ -114,7 +117,6 @@ function fadeOut()
       target_main.x = random(25,775);
       target_main.y = random(25,425);
       stageCount+=1;
-      
       spawnDecoys(stageCount*2);
       t2 = true;
     }
@@ -126,12 +128,12 @@ function fadeOut()
     fadeTimer = 0;
     transition = false;
     changeTimer = 0;
+    if (stageCount > 7)
+    {
+      screen+=1;
+    }
   }
   ellipse(target_main.x,target_main.y, fadeTimer,fadeTimer);
-    
-    
-  
-  
 }
 
 function test1()
@@ -149,7 +151,6 @@ function test1()
   background(0);
   ellipse(tx,ty,50,50);
 }
-
 
 function mousePressed()
 {
