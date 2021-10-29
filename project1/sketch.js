@@ -203,7 +203,7 @@ function scrollRand()
   for (let j=0; j<3; j++)
   {
     steps[j] = (6-currOrder[j]+desOrder[j])*30+j*150;//+j*225;
-    //console.log((6-currOrder[j]+desOrder[j])*30);
+    //console.log((6-currOrder[j]+desOrder[j])*30); 
   }
 }
 
