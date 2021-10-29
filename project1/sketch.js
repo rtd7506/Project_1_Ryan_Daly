@@ -3,7 +3,7 @@
 // limit speed
 
 //General
-let screen = 0;
+let screen = 2;
 let tTimer = 0;
 //Screen1
 let tx, ty;
@@ -81,65 +81,7 @@ function draw()
   }
   else if (screen == 1)
   {
-    //UI
-    //Button
-    strokeWeight(10);
-    if (steps[2]>0)
-    {
-      fill(150);
-      stroke(100);
-      rect(625,350,225,90);
-    }
-    else
-    {
-      fill(200);
-      stroke(150);
-      rect(625,350,250,100);
-    }
-    textSize(32);
-    if (steps[2]<0)
-    {
-      fill(255);
-      stroke(150);
-      strokeWeight(10);
-      textAlign(CENTER,CENTER);
-      text("Click to Spin!", 625,350);
-    } 
-    //Info Box
-    stroke(150);
-    fill(200);
-    rect(625,150,225,225)
-    fill(255);
-    stroke(150);
-    textAlign(CENTER,CENTER);
-    textSize(40);
-    strokeWeight(10);
-    text("Get Three",625,75);
-    //strokeWeight(0);
-    text("To Win!",625,225);
-    noStroke();
-    fill(200);
-    rect(625,185,40,35);
-    rect(625,249,40,17);
-    textSize(42);
-    //Overlay
-    fill(200,75);
-    noStroke();
-    rect(250,225,425,125);
-    //Example Target
-    fill(150);
-    ellipse(625,145,90,90);
-    if (dist(touchX,touchY,625,145)<75)
-    {
-      textSize(30);
-      fill(255);
-      stroke(150);
-      text("No!", 625,145)
-    }
-    else
-    {
-      target(625,145,75,color(255,0,0));
-    }
+    scrollUI();
     //Scroll Timer
     if (steps[2] < 0)
     {
@@ -169,6 +111,87 @@ function draw()
     {
       screenChange(450,225);
     }
+  }
+  else if (screen == 2)
+  {
+    //Still Elements
+    strokeWeight(10);
+    stroke(0);
+    fill(255,255,200);
+    triangle(0,0,400,225,0,450);
+    triangle(800,0,400,225,800,450);
+    fill(200,200,150);
+    triangle(0,0,400,225,800,0);
+    fill(100,100,50);
+    triangle(0,450,400,225,800,450);
+    //fill(50,50,0);
+    //noStroke();
+    //ellipse(400,285,100,50)
+    target(400,225,75,color(255,0,0));
+    
+  }
+}
+
+function scrollUI()
+{
+  //UI
+  //Button
+  strokeWeight(10);
+  if (steps[2] > 0) 
+  {
+    fill(150);
+    stroke(100);
+    rect(625, 350, 225, 90);
+  }
+  else 
+  {
+    fill(200);
+    stroke(150);
+    rect(625, 350, 250, 100);
+  }
+  textSize(32);
+  if (steps[2] < 0) 
+  {
+    fill(255);
+    stroke(150);
+    strokeWeight(10);
+    textAlign(CENTER, CENTER);
+    text("Click to Spin!", 625, 350);
+  }
+  //Info Box
+  stroke(150);
+  fill(200);
+  rect(625, 150, 225, 225)
+  fill(255);
+  stroke(150);
+  textAlign(CENTER, CENTER);
+  textSize(40);
+  strokeWeight(10);
+  text("Get Three", 625, 75);
+  //strokeWeight(0);
+  text("To Win!", 625, 225);
+  noStroke();
+  fill(200);
+  rect(625, 185, 40, 35);
+  rect(625, 249, 40, 17);
+  textSize(42);
+  //Overlay
+  fill(200, 75);
+  noStroke();
+  rect(250, 225, 425, 125);
+  //Example Target
+  fill(150);
+  ellipse(625, 145, 90, 90);
+  if (dist(touchX, touchY, 625, 145) < 75) 
+  {
+    textSize(30);
+    fill(255);
+    stroke(150);
+    text("No!", 625,145)
+  }
+  else
+  {
+    target(625,145,75,color(255,0,0));
   }
 }
 
