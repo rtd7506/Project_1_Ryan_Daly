@@ -25,7 +25,7 @@ class Scroll
     {
         for (let i = 0; i < 6; i++) 
         {
-            this.yInit[i] += 5;
+            this.yInit[i] += 10; //change this variable to change speed
         }
     }
 

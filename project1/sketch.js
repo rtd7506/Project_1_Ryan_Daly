@@ -202,14 +202,19 @@ function scrollRand()
   }
   for (let j=0; j<3; j++)
   {
-    steps[j] = (6-currOrder[j]+desOrder[j])*30+j*150;//+j*225;
+    steps[j] = (6-currOrder[j]+desOrder[j])*15+j*150-1;//+j*225; // change *15 in tandem with the speed of the scroll // the -1 at the end stops it from offsetting every cycle
     //console.log((6-currOrder[j]+desOrder[j])*30); 
   }
 }
 
-function mousePressed()
+function touchStarted()
 {
-
+  console.log(steps);
+  if (screen == 1 && steps[2] == -1)
+  {
+    console.log("YES");
+    scrollRand();
+  }
 }
 
 
