@@ -30,11 +30,11 @@ class Door
         
     }
 
-    iterate()
+    iterate(rate)
     {
         
-        this.scroll+=this.scroll/200;
-        console.log(this.scroll);
+        this.scroll+=this.scroll*rate/200;
+        //console.log(this.scroll);
         if (this.scroll > 400)
         {
             this.scroll = 1;

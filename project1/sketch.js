@@ -3,7 +3,7 @@
 // limit speed
 
 //General
-let screen = 2;
+let screen = 0;
 let tTimer = 0;
 let change = false;
 //Screen0
@@ -23,6 +23,10 @@ let scrollCount = 0;
 let doors = [];
 let dDir = 1;
 let dIt = 450;
+let lIt = 225
+let lights = [];
+let scrollRate = 0;
+let hallTimer = 0;
 
 
 function setup() 
@@ -41,11 +45,17 @@ function setup()
   steps = [30*2,30*(int(random(1,5))+5),30*(int(random(1,5)+10))]
   scrollRand();
   //steps = [30,180,330];
-  for (let i = 0; i <8; i++)
+  for (let i = 0; i <12; i++)
   {
-    dIt = dIt*1/2;
+    dIt = dIt*3/5;
     append(doors, new Door(dDir,dIt));
     dDir*=-1;
+  }
+
+  for (let i=0; i<8; i++)
+  {
+    lIt = lIt/2;
+    append(lights, new Light(lIt));
   }
         
 }
@@ -65,6 +75,11 @@ function target(x,y,size,color)
 function draw() 
 {
   background(0);
+  if (screen > 2)
+  {
+    screen = 0;
+  }
+
   if (screen == 0)
   {
     target_main.display();
@@ -77,6 +92,7 @@ function draw()
       //fadeOut();
     }
     if (transition == true || changeTimer > 300) {
+      
       fadeOut();
     }
     else {
@@ -142,9 +158,31 @@ function draw()
     for (let i=0; i<doors.length; i++)
     {
       doors[i].display();
-      doors[i].iterate();
+      doors[i].iterate(scrollRate);
+    }
+    for (let i=0; i<lights.length; i++)
+    {
+      lights[i].display();
+      lights[i].iterate(scrollRate);
     }
     target(400,225,75,color(255,0,0));
+    if (mouseX<450)
+    {
+      console.log(map(mouseX,0,450,0.25,2));
+      scrollRate = map(mouseX,0,450,0.25,2);
+    }
+    else if (mouseX > 450 && mouseX<900)
+    {
+      console.log(map(mouseX,450,900,2,0.25));
+      scrollRate = map(mouseX,450,900,2,0.25);
+    }
+
+    hallTimer +=1;
+    if (hallTimer>500)
+    {
+      change = true;
+      hallTimer = 0;
+    }
   }
 
   if (change == true)
@@ -301,6 +339,25 @@ function fadeOut()
       decoys = [];
       target_main.x = random(25,775);
       target_main.y = random(25,425);
+      let sx = 0;
+      let sy = 0;
+      let clear = false;
+      while (clear == false)
+      {
+        let temp = true // temp variable to store whether to stop the loop
+        sx = random(25,775); //spawn x and y
+        sy = random(25,425);
+        for (let j=0; j<decoys.length; j++)
+        {
+          if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,touchX, touchY) < 50)
+          {
+            temp = false;
+          }
+        }
+        clear = temp;
+      }
+      target_main.x = sx;
+      target_main.y = sy;
       stageCount+=1;
       spawnDecoys(stageCount*2);
       t2 = true;
@@ -310,6 +367,7 @@ function fadeOut()
   }
   if (fadeTimer == 1600 && stageCount >7)
   {
+    decoys = [];
     screen+=1;
   }
   if (fadeTimer>2400)
