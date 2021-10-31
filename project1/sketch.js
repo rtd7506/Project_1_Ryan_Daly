@@ -21,8 +21,8 @@ let scrollTimer = 0;
 let scrollCount = 0;
 //Screen2
 let doors = [];
-let dSpawnTimer = 0;
 let dDir = 1;
+let dIt = 450;
 
 
 function setup() 
@@ -41,6 +41,13 @@ function setup()
   steps = [30*2,30*(int(random(1,5))+5),30*(int(random(1,5)+10))]
   scrollRand();
   //steps = [30,180,330];
+  for (let i = 0; i <8; i++)
+  {
+    dIt = dIt*1/2;
+    append(doors, new Door(dDir,dIt));
+    dDir*=-1;
+  }
+        
 }
 
 function target(x,y,size,color)
@@ -122,13 +129,13 @@ function draw()
     //Still Elements
     strokeWeight(5);
     stroke(0);
-    fill(255,255,200);
-    triangle(0,0,400,225,0,450);
-    triangle(800,0,400,225,800,450);
-    fill(200,200,150);
-    triangle(0,0,400,225,800,0);
-    fill(100,100,50);
-    triangle(0,450,400,225,800,450);
+    fill(242,217,187);
+    triangle(0,0,400,225,0,450); //walls
+    triangle(800,0,400,225,800,450); //walls
+    fill(140,110,84);
+    triangle(0,0,400,225,800,0);//ceiling
+    fill(89,62,46);
+    triangle(0,450,400,225,800,450); //floor
     //fill(50,50,0);
     //noStroke();
     //ellipse(400,285,100,50)
@@ -138,18 +145,6 @@ function draw()
       doors[i].iterate();
     }
     target(400,225,75,color(255,0,0));
-    if (doors.length<12)
-    {
-      dSpawnTimer += 1;
-      if (dSpawnTimer == 100)
-      {
-        append(doors, new Door(dDir,10));
-        dDir*=-1;
-        dSpawnTimer = 0;
-      }
-    }
-    
-
   }
 
   if (change == true)
