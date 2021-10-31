@@ -86,7 +86,7 @@ function draw()
     for (let i = 0; i < decoys.length; i++) {
       decoys[i].display();
     }
-    if (dist(touchX, touchY, target_main.x, target_main.y) < 75) {
+    if (dist(mouseX, mouseY, target_main.x, target_main.y) < 75) {
       //console.log("GET AWAY FROM ME YOU HEATHEN!");
       transition = true;
       //fadeOut();
@@ -138,6 +138,7 @@ function draw()
     if (scrollCount > 7)
     {
       change = true;
+      scrollCount = 0;
     }
   }
   else if (screen == 2)
@@ -166,14 +167,14 @@ function draw()
       lights[i].iterate(scrollRate);
     }
     target(400,225,75,color(255,0,0));
-    if (mouseX<450)
+    if (mouseX<450 && mouseX>0)
     {
-      console.log(map(mouseX,0,450,0.25,2));
+      //console.log(map(mouseX,0,450,0.25,2));
       scrollRate = map(mouseX,0,450,0.25,2);
     }
     else if (mouseX > 450 && mouseX<900)
     {
-      console.log(map(mouseX,450,900,2,0.25));
+      //console.log(map(mouseX,450,900,2,0.25));
       scrollRate = map(mouseX,450,900,2,0.25);
     }
 
@@ -263,7 +264,7 @@ function scrollUI()
   //Example Target
   fill(150);
   ellipse(625, 145, 90, 90);
-  if (dist(touchX, touchY, 625, 145) < 75) 
+  if (dist(mouseX, mouseY, 625, 145) < 75) 
   {
     textSize(30);
     fill(255);
@@ -313,7 +314,7 @@ function spawnDecoys(count)
       sy = random(25,425);
       for (let j=0; j<decoys.length; j++)
       {
-        if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,target_main.x,target_main.y) < 50)
+        if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,target_main.x,target_main.y) < 75)
         {
           temp = false;
           //break; //APPARENTLY BREAK DOESNT EXIST IN P5JS
@@ -349,7 +350,7 @@ function fadeOut()
         sy = random(25,425);
         for (let j=0; j<decoys.length; j++)
         {
-          if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,touchX, touchY) < 50)
+          if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,mouseX, mouseY) < 50)
           {
             temp = false;
           }
@@ -368,6 +369,8 @@ function fadeOut()
   if (fadeTimer == 1600 && stageCount >7)
   {
     decoys = [];
+    stageCount = 0;
+    //console.log("test");
     screen+=1;
   }
   if (fadeTimer>2400)
@@ -381,10 +384,10 @@ function fadeOut()
 
 function test1()
 {
-  if(dist(tx,ty,touchX,touchY) < 100)
+  if(dist(tx,ty,mouseX,mouseY) < 100)
   {
-    tx-=(touchX-tx)/10;
-    ty-=(touchY-ty)/10;
+    tx-=(mouseX-tx)/10;
+    ty-=(mouseY-ty)/10;
     if (tx<0 || tx>800 || ty<0 || ty>450)
     {
       tx=400;
