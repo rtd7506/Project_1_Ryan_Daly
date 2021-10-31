@@ -5,7 +5,8 @@
 //General
 let screen = 2;
 let tTimer = 0;
-//Screen1
+let change = false;
+//Screen0
 let tx, ty;
 let target2;
 let decoys = [];
@@ -14,10 +15,14 @@ let transition = false;
 let t2 = false;
 let changeTimer = 0;
 let stageCount = 0;
-//Screen2
+//Screen1
 let scrolls = [];
 let scrollTimer = 0;
 let scrollCount = 0;
+//Screen2
+let doors = [];
+let dSpawnTimer = 0;
+let dDir = 1;
 
 
 function setup() 
@@ -109,13 +114,13 @@ function draw()
 
     if (scrollCount > 7)
     {
-      screenChange(450,225);
+      change = true;
     }
   }
   else if (screen == 2)
   {
     //Still Elements
-    strokeWeight(10);
+    strokeWeight(5);
     stroke(0);
     fill(255,255,200);
     triangle(0,0,400,225,0,450);
@@ -127,10 +132,53 @@ function draw()
     //fill(50,50,0);
     //noStroke();
     //ellipse(400,285,100,50)
+    for (let i=0; i<doors.length; i++)
+    {
+      doors[i].display();
+      doors[i].iterate();
+    }
     target(400,225,75,color(255,0,0));
+    if (doors.length<12)
+    {
+      dSpawnTimer += 1;
+      if (dSpawnTimer == 100)
+      {
+        append(doors, new Door(dDir,10));
+        dDir*=-1;
+        dSpawnTimer = 0;
+      }
+    }
     
+
+  }
+
+  if (change == true)
+  {
+    screenChange(450,225);
   }
 }
+
+/*
+function doors()
+{
+  //let ds = doorScroll;
+  strokeWeight(5);
+  stroke(0);
+  fill(200,200,100);
+  
+  let ds = doorScroll;// + 200*i;
+  console.log("BEEP");
+  let width = ds / 2;
+  let x1 = ds;
+  let x2 = ds + width;
+  let y1 = ds * 9 / 16;
+  let y2 = (ds + width) * 9 / 16;
+  quad(400 + x1, 225 + y1, 400 + x2, 225 + y2, 400 + x2, 225 - y2, 400 + x1, 225 - y1);
+  quad(400 - x1/2, 225 + y1/2, 400 - x2/2, 225 + y2/2, 400 - x2/2, 225 - y2/2, 400 - x1/2, 225 - y1/2);
+  quad(400 + x1/3, 225 + y1/3, 400 + x2/3, 225 + y2/3, 400 + x2/3, 225 - y2/3, 400 + x1/3, 225 - y1/3);
+  quad(400 + x1/8, 225 + y1/8, 400 + x2/8, 225 + y2/8, 400 + x2/8, 225 - y2/8, 400 + x1/8, 225 - y1/8);
+}
+*/
 
 function scrollUI()
 {
@@ -203,17 +251,17 @@ function screenChange(x,y)
   if (tTimer>1600)
   {
     fill(255,map((tTimer-1600),0,850,255,0));
-    
+    //console.log(map((tTimer-1600),0,850,255,0));
   }
   if (tTimer == 1640)
   {
     screen+=1;
-    console.log(screen);
+    //console.log(screen);
   }
   if (tTimer>2400)
   {
     tTimer = 0;
-    
+    change = false;
   }
   ellipse(x,y, tTimer,tTimer);
 }
@@ -297,7 +345,7 @@ function test1()
 function scrollRand()
 {
   scrollCount+=1;
-  console.log(scrollCount);
+  //console.log(scrollCount);
   let test = int(random(0,6));
   let currOrder = [0,0,0];
   let desOrder = [2,1,1];
