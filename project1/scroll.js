@@ -7,6 +7,7 @@ class Scroll
         this.yScroll = 225;
         this.yInit = [-75, 75, 225, 375, 525, 675]
         this.stepCounter = 0;
+        this.stopper = 375;
     }
 
     display() 
@@ -20,6 +21,15 @@ class Scroll
             }
         }
     }
+
+    stop()
+    {
+        if ((this.yInit[2]+75)%150 == 0 && (this.yInit[2] != 225))
+        {
+            trueStop = true;
+        }
+    }
+
     //((scrolls[i].yInit[0]+75)/5)
     scroll()
     {
@@ -34,20 +44,20 @@ class Scroll
         switch (type) 
         {
             case 0:
-                target(x, y, scale, color(255, 0, 0));
+                this.pent(x, y, scale * 2 / 3);
                 //console.log(this.yInit);
                 break;
             case 1:
-                this.tri(x, y, scale * 2 / 3);
+                this.hex(x, y, scale * 2 / 3);
                 break;
             case 2:
-                this.box(x, y, scale * 2 / 3);
+                target(x, y, scale, color(255, 0, 0));
                 break;
             case 3:
-                this.pent(x, y, scale * 2 / 3);
+                this.tri(x, y, scale * 2 / 3);
                 break;
             case 4:
-                this.hex(x, y, scale * 2 / 3);
+                this.box(x, y, scale * 2 / 3);
                 break;
 
         }

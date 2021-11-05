@@ -3,7 +3,7 @@
 // limit speed
 
 //General
-let screen = 0;
+let screen = 1;
 let tTimer = 0;
 let change = false;
 //Screen0
@@ -19,6 +19,8 @@ let stageCount = 0;
 let scrolls = [];
 let scrollTimer = 0;
 let scrollCount = 0;
+let stopScroll = false;
+let trueStop = false;
 //Screen2
 let doors = [];
 let dDir = 1;
@@ -113,6 +115,11 @@ function draw()
   }
   else if (screen == 1)
   {
+    //Overlay
+    fill(200, 75);
+    noStroke();
+    rect(250, 225, 425, 125);
+    /*
     scrollUI();
     //Scroll Timer
     if (steps[2] < 0)
@@ -132,7 +139,7 @@ function draw()
     for (let j = 0; j < 3; j++) 
     {
       scrolls[j].display();
-      if (steps[j] >= 0)
+      if (steps[j] >= 0 && j == 2)
       {
         steps[j]-=1;
         scrolls[j].scroll();
@@ -143,6 +150,37 @@ function draw()
     {
       change = true;
       scrollCount = 0;
+    }
+    */
+
+    if (trueStop == true)
+    {
+      scrollTimer+=1;
+      if (scrollTimer > 60)
+      {
+        scrollTimer = 0;
+        stopScroll = false;
+        trueStop = false;
+      }
+    }
+
+    for (let j = 0; j < 3; j++) 
+    {
+      scrolls[j].display();
+      if (j == 2)
+      {
+        if (stopScroll == true)
+        {
+          scrolls[2].stop();
+        }
+
+        if (trueStop == false)
+        {
+          scrolls[j].scroll();
+        }
+        //steps[j]-=1;
+        
+      }
     }
   }
   else if (screen == 2)
@@ -455,9 +493,11 @@ function scrollRand()
 function touchStarted()
 {
   //console.log(steps);
-  if (screen == 1 && steps[2] == -1)
+  if (screen == 1)
   {
-    scrollRand();
+    stopScroll = true;
+    scrolls[2].stop(); // stops scroll
+    //scrollRand();
   }
 }
 
