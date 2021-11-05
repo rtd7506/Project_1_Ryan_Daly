@@ -83,23 +83,27 @@ function draw()
   if (screen == 0)
   {
     target_main.display();
+    target_main.deflect();
+    target_main.bounce();
     for (let i = 0; i < decoys.length; i++) {
       decoys[i].display();
     }
+    /*
     if (dist(mouseX, mouseY, target_main.x, target_main.y) < 75) {
       //console.log("GET AWAY FROM ME YOU HEATHEN!");
       transition = true;
       //fadeOut();
     }
-    if (transition == true || changeTimer > 300) {
-      
+    */
+    if (transition == true || changeTimer > 300) 
+    {
+
       fadeOut();
     }
     else {
-      if (stageCount > 0) {
-        target_main.bounce();
-      }
-      for (let i = 0; i < decoys.length; i++) {
+      
+      for (let i = 0; i < decoys.length; i++) 
+      {
         decoys[i].bounce();
       }
       t2=false;
@@ -302,31 +306,26 @@ function screenChange(x,y)
 
 function spawnDecoys(count)
 {
+  let sx;
+  let sy;
   for (let i=0; i<count; i++)
   {
-    let sx = 0;
-    let sy = 0;
-    let clear = false;
-    while (clear == false)
+    if (int(random(-1,2)) == 0)
     {
-      let temp = true // temp variable to store whether to stop the loop
-      sx = random(25,775); //spawn x and y
-      sy = random(25,425);
-      for (let j=0; j<decoys.length; j++)
-      {
-        if (dist(sx,sy,decoys[j].x,decoys[j].y) < 50 || dist(sx,sy,target_main.x,target_main.y) < 75)
-        {
-          temp = false;
-          //break; //APPARENTLY BREAK DOESNT EXIST IN P5JS
-        }
-        //console.log());
-      }
-      clear = temp;
+      sx = 50;
     }
-    append(decoys, new Decoy_target(sx, sy,50));
+    else
+    {
+      sx = 750;
+    }
+    sy = random(50,400);
+
+    //append(decoys, new Decoy_target(sx, sy,50));
+    append(decoys, new Decoy_target(target_main.x+random(-10,10), target_main.y+random(-10,10),50));
   }
 }
 
+/*
 function fadeOut()
 {
   
@@ -380,6 +379,20 @@ function fadeOut()
     changeTimer = 0;
   }
   ellipse(target_main.x,target_main.y, fadeTimer,fadeTimer);
+}
+*/
+function fadeOut()
+{
+  if (stageCount>7)
+  {
+    decoys = [];
+    stageCount = 0;
+    screen+=1;
+  }
+  stageCount+=1;
+  console.log("Test");
+  spawnDecoys(1);
+  changeTimer = 0;
 }
 
 function test1()
