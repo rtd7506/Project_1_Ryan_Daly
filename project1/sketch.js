@@ -432,7 +432,7 @@ function fadeOut()
   }
   stageCount+=1;
   console.log(150-stageCount*10);
-  spawnDecoys();
+  target_main.spawnDecoys();
   changeTimer = 0;
 }
 
@@ -493,10 +493,7 @@ function scrollRand()
   }
 }
 
-function spawnDecoys()
-{
-  append(decoys, new Decoy_target(target_main.position,50,target_main.velocity));
-}
+
 
 function touchStarted()
 {
