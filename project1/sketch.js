@@ -20,6 +20,7 @@ let scrollCount = 0;
 let stopScroll = false;
 let trueStop = false;
 let autoTimer = 0;
+let start = false;
 //Screen2
 let doors = [];
 let dDir = 1;
@@ -70,8 +71,21 @@ function target(x,y,size,color)
   ellipse(x,y,size*2/3,size*2/3);
   fill(color);
   ellipse(x,y,size/3,size/3);
-
 }
+
+function arrow(x,y,size)
+{
+  push();
+  translate(x,y);
+  scale(size);
+  fill(255,0,0);
+  noStroke();
+  rectMode(CENTER);
+  rect(-5,0,60,20);
+  triangle(-50,0,-25,25,-25,-25);
+  pop();
+}
+
 function draw() 
 {
   background(0);
@@ -95,6 +109,7 @@ function draw()
       //fadeOut();
     }
     */
+    //target(735,65,75,color(255,0,0));
     if (transition == true || changeTimer > 150 - stageCount*7) 
     {
 
@@ -111,8 +126,13 @@ function draw()
       {
         changeTimer+=1;
       }
+      else
+      {
+        arrow(500+sin(millis()/100)*10,225,.9);
+      }
       //console.log(changeTimer);
     }
+    
   }
   else if (screen == 1)
   {
@@ -229,12 +249,21 @@ function draw()
     pop()
 
     //Auto spinning system
-    autoTimer+=1;
+    
     if (autoTimer == 250)
     {
       stopScroll = true;
       scrolls[2].stop();
       autoTimer = 0;
+    }
+    console.log(start);
+    if (start == true)
+    {
+      autoTimer+=1;
+    }
+    else
+    {
+      arrow(625+sin(millis()/100)*10,375,.9);
     }
   }
   else if (screen == 2)
@@ -531,6 +560,8 @@ function touchStarted()
   if (screen == 1)
   {
     stopScroll = true;
+    start = true;
+    autoTimer = 0;
     scrolls[2].stop(); // stops scroll
     //scrollRand();
   }
