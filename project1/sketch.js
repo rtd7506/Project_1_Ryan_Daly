@@ -3,7 +3,7 @@
 // limit speed
 
 //General
-let screen = 1;
+let screen = 0;
 let tTimer = 0;
 let change = false;
 //Screen0
@@ -38,12 +38,11 @@ function setup()
   tx = 400;
   ty = 225;
   //Screen1
-  target_main = new Target2(400,225,50);
+  target_main = new Target2();
   for (let j = 0; j < 3; j++) 
   {
-    append(scrolls, new Scroll(100+j*150))
+    append(scrolls, new Scroll(287.5+j*112.5))
   }
-  spawnDecoys(stageCount);
   steps = [30*2,30*(int(random(1,5))+5),30*(int(random(1,5)+10))]
   scrollRand();
   //steps = [30,180,330];
@@ -85,8 +84,7 @@ function draw()
   if (screen == 0)
   {
     target_main.display();
-    target_main.deflect();
-    target_main.bounce();
+    target_main.update();
     for (let i = 0; i < decoys.length; i++) {
       decoys[i].display();
     }
@@ -118,7 +116,7 @@ function draw()
     //Overlay
     fill(200, 75);
     noStroke();
-    rect(250, 225, 425, 125);
+    rect(400, 150, 575, 100);
     /*
     scrollUI();
     //Scroll Timer
@@ -182,6 +180,31 @@ function draw()
         
       }
     }
+    fill(50);
+    rect(400,375,800,150);
+    stroke(155,0,0);
+    strokeWeight(10);
+    fill(205,0,0);
+    rect(400,375,65,65);
+    rect(287.5,375,65,65);
+    stroke(205,0,0);
+    fill(255,0,0);
+    push();
+    translate(512.5,375);
+    if (trueStop == false)
+    {
+      scale(1.25);
+    }
+    else
+    {
+      scale(1);
+      fill(205,0,0);
+      stroke(155,0,0);
+      rotate(sin(scrollTimer/3)/5); // MAKES THE BUTTON WIGGLE
+    }
+    
+    rect(0,0,65,65);
+    pop()
   }
   else if (screen == 2)
   {
@@ -342,27 +365,6 @@ function screenChange(x,y)
   ellipse(x,y, tTimer,tTimer);
 }
 
-function spawnDecoys(count)
-{
-  let sx;
-  let sy;
-  for (let i=0; i<count; i++)
-  {
-    if (int(random(-1,2)) == 0)
-    {
-      sx = 50;
-    }
-    else
-    {
-      sx = 750;
-    }
-    sy = random(50,400);
-
-    //append(decoys, new Decoy_target(sx, sy,50));
-    append(decoys, new Decoy_target(target_main.x+random(-10,10), target_main.y+random(-10,10),50));
-  }
-}
-
 /*
 function fadeOut()
 {
@@ -429,7 +431,7 @@ function fadeOut()
   }
   stageCount+=1;
   console.log("Test");
-  spawnDecoys(1);
+  target_main.spawnDecoys();
   changeTimer = 0;
 }
 

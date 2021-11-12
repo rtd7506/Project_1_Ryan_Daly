@@ -1,54 +1,52 @@
 class Target2
 {
-  constructor(x_,y_,size_)
+  constructor()
   {
-    this.x = x_;
-    this.y = y_;
-    this.size = size_;
-    this.velocity = createVector(random(-1,1),random(-1,1))
-    this.velocity.normalize();
+    this.position = createVector(width/2, height/2);
+    this.velocity = createVector();
+    this.acceleration = createVector();
+    this.topspeed = 5;
   }
 
-  deflect()
+  update()
   {
-    if (dist(mouseX,mouseY,this.x,this.y)<100)
+    let mouse = createVector(mouseX, mouseY);
+    if (dist(mouse.x, mouse.y, this.position.x,this.position.y) < 100)
     {
-      /*
-      this.tempX = map(this.x-mouseX,-100,100,1,-1);
-      this.tempY = map(this.y-mouseY,-100,100,1,-1);
-      console.log(1/(this.x-mouseX));//this.tempX);
-      this.velocity.x += 1/(this.x-mouseX);
-      this.velocity.y += 1/(this.y-mouseY);
-      */
-      this.tempV = createVector((mouseX-this.x)/100,(mouseY-this.y)/100);
-      //console.log(this.velocity);
-      //this.x-=(mouseX-this.x)/10;
-      //this.y-=(mouseY-this.y)/10;
-      this.velocity.sub(this.tempV);
-      //this.velocity.normalize();
+      this.acceleration = p5.Vector.sub(mouse,this.position);
+      this.acceleration.setMag(-1);
+    }
+
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.topspeed);
+    this.position.add(this.velocity);
+
+    if (this.position.x > width+50)
+    {
+      this.position.x = -50;
+    }
+    if (this.position.x < -50)
+    {
+      this.position.x = width+50;
+    }
+    if (this.position.y > height+50)
+    {
+      this.position.y = -50;
+    }
+    if (this.position.y < -50)
+    {
+      this.position.y = height+50;
     }
   }
 
   display()
   {
-    target(this.x,this.y,this.size,color(255,0,0));
-    this.x += this.velocity.x*2.5;
-    this.y += this.velocity.y*2.5;
-    this.velocity.x = this.velocity.x *.99;
-    this.velocity.y = this.velocity.y *.99;
+    target(this.position.x, this.position.y,50,color(255,0,0));
+
   }
 
-  bounce() //bouncy ball behavior
+  spawnDecoys()
   {
-    
-    
-    if(this.x < this.size/2 || this.x > 800-this.size/2)
-    {
-      this.velocity.x = this.velocity.x*-1
-    }
-    if(this.y < this.size/2 || this.y > 450-this.size/2)
-    {
-      this.velocity.y = this.velocity.y*-1
-    }
+    append(decoys, new Decoy_target(this.position,50,createVector(1,0)));
   }
 }

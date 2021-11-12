@@ -1,25 +1,27 @@
 class Decoy_target
 {
-  constructor(x_,y_,size_)
+  constructor(pos_,size_,dir_)
   {
-    this.x = x_;
-    this.y = y_;
+    this.position = pos_; 
     this.size = size_;
-    this.velocity = createVector(random(-1,1),random(-1,1))
-    this.velocity.normalize();
+    this.dir = dir_;
+    
+    this.velocity = this.dir;
+    console.log(this.dir);
+    //this.velocity.normalize();
     this.color = color(random(0,255),random(0,255),random(0,255));
   }
 
   display()
   {
-    target(this.x,this.y,this.size,this.color);
+    target(this.position.x,this.position.y,this.size,this.color);
   }
 
   bounce() //bouncy ball behavior
   {
-    this.x += this.velocity.x*2.5;
-    this.y += this.velocity.y*2.5;
-    
+    this.velocity.limit(5);
+    this.position.add(this.velocity);
+    /*
     if(this.x < this.size/2 || this.x > 800-this.size/2)
     {
       this.velocity.x = this.velocity.x*-1
@@ -28,7 +30,7 @@ class Decoy_target
     {
       this.velocity.y = this.velocity.y*-1
     }
-
+    
     for (let i=0; i<decoys.length; i++)
     {
       let d = dist(this.x,this.y,decoys[i].x,decoys[i].y);
@@ -39,7 +41,8 @@ class Decoy_target
         decoys[i].velocity = temp;
       }
     }
-    
+    */
+    /*
     if (dist(this.x,this.y,target_main.x,target_main.y) < this.size)
     {
       let temp = this.velocity;
@@ -47,6 +50,7 @@ class Decoy_target
       target_main.velocity = temp;
 
     }
+    */
     
   }
 }

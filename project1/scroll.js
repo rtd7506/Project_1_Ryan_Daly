@@ -5,7 +5,7 @@ class Scroll
         this.scale = 100;
         this.x = x_;
         this.yScroll = 225;
-        this.yInit = [-75, 75, 225, 375, 525, 675]
+        this.yInit =  [-75, 37.5, 150, 262.5, 375, 487.5] //[-75, 75, 225, 375, 525, 675]
         this.stepCounter = 0;
         this.stopper = 375;
     }
@@ -15,7 +15,7 @@ class Scroll
         for (let i = 0; i < 6; i++) 
         {
             this.drawShape(this.x, this.yInit[i], this.scale, i);
-            if (this.yInit[i] >= 675) 
+            if (this.yInit[i] >= 487.5)//675) 
             {
                 this.yInit[i] = -75;
             }
@@ -24,9 +24,21 @@ class Scroll
 
     stop()
     {
-        if ((this.yInit[2]+75)%150 == 0 && (this.yInit[2] != 225))
+        if ((this.yInit[2]+75)%112.5 == 0 && this.yInit[2] != 150)
         {
             trueStop = true;
+            if (this.yInit[2] > 150 && this.yInit[2] < 225)
+            {
+
+            }
+            else if (this.yInit[2] > 225 && this.yInit[2] < 300)
+            {
+
+            }
+            else
+            {
+                
+            }
         }
     }
 
@@ -35,7 +47,7 @@ class Scroll
     {
         for (let i = 0; i < 6; i++) 
         {
-            this.yInit[i] += 10; //change this variable to change speed
+            this.yInit[i] += 7.5; //change this variable to change speed
         }
     }
 
@@ -44,20 +56,20 @@ class Scroll
         switch (type) 
         {
             case 0:
-                this.pent(x, y, scale * 2 / 3);
+                this.pent(x, y, scale * 1 / 2);
                 //console.log(this.yInit);
                 break;
             case 1:
-                this.hex(x, y, scale * 2 / 3);
+                this.hex(x, y, scale * 1 / 2);
                 break;
             case 2:
-                target(x, y, scale, color(255, 0, 0));
+                target(x, y, scale * 2/3, color(255, 0, 0));
                 break;
             case 3:
-                this.tri(x, y, scale * 2 / 3);
+                this.tri(x, y, scale * 1 / 2);
                 break;
             case 4:
-                this.box(x, y, scale * 2 / 3);
+                this.box(x, y, scale * 1 / 2);
                 break;
 
         }
