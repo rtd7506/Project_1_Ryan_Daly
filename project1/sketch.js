@@ -1,6 +1,4 @@
-// then make an array
-// limit array size
-// limit speed
+//ADD UI ELEMENT TO SCREEN 0 TO SHOW YOU WANT THE TARGET 
 
 //General
 let screen = 0;
@@ -17,10 +15,11 @@ let changeTimer = 0;
 let stageCount = 0;
 //Screen1
 let scrolls = [];
-let scrollTimer = 0;
+let scrollTimer = 0; //I decided to use old fasioned timers because they are just as consistent as millis() and easier to wrap my head around
 let scrollCount = 0;
 let stopScroll = false;
 let trueStop = false;
+let autoTimer = 0;
 //Screen2
 let doors = [];
 let dDir = 1;
@@ -108,12 +107,26 @@ function draw()
         decoys[i].bounce();
       }
       t2=false;
-      changeTimer+=1;
+      if (target_main.velocity.x != 0)
+      {
+        changeTimer+=1;
+      }
       //console.log(changeTimer);
     }
   }
   else if (screen == 1)
   {
+    if (trueStop == true) //this is here due to order of operations
+    {
+      if (scrollTimer < 20)
+      {
+        background(map(scrollTimer,0,20,0,255),0,0)
+      }
+      else
+      {
+        background(map(scrollTimer,20,60,255,0),0,0)
+      }
+    }
     //Overlay
     fill(200, 75);
     noStroke();
@@ -151,12 +164,18 @@ function draw()
       scrollCount = 0;
     }
     */
+    if (scrollCount > 7)
+    {
+      change = true;
+      scrollCount = 0;
+    }
 
     if (trueStop == true)
     {
       scrollTimer+=1;
       if (scrollTimer > 60)
       {
+        scrollCount+=1;
         scrollTimer = 0;
         stopScroll = false;
         trueStop = false;
@@ -181,13 +200,15 @@ function draw()
         
       }
     }
-    fill(50);
-    rect(400,375,800,150);
+    fill(50); 
+    rect(400,375,800,150); //wall1
+    rect(75,225,200,450);
+    rect(725,225,200,450);
     stroke(155,0,0);
     strokeWeight(10);
     fill(205,0,0);
-    rect(400,375,65,65);
-    rect(287.5,375,65,65);
+    rect(400,375,65,65); //button1
+    rect(287.5,375,65,65); //button2
     stroke(205,0,0);
     fill(255,0,0);
     push();
@@ -206,6 +227,15 @@ function draw()
     
     rect(0,0,65,65);
     pop()
+
+    //Auto spinning system
+    autoTimer+=1;
+    if (autoTimer == 250)
+    {
+      stopScroll = true;
+      scrolls[2].stop();
+      autoTimer = 0;
+    }
   }
   else if (screen == 2)
   {
