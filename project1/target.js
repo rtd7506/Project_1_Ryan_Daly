@@ -45,8 +45,5 @@ class Target2
 
   }
 
-  spawnDecoys()
-  {
-    append(decoys, new Decoy_target(this.position,50,createVector(1,0)));
-  }
+
 }

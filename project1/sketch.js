@@ -87,6 +87,7 @@ function draw()
     target_main.update();
     for (let i = 0; i < decoys.length; i++) {
       decoys[i].display();
+      decoys[i].bounce();
     }
     /*
     if (dist(mouseX, mouseY, target_main.x, target_main.y) < 75) {
@@ -95,7 +96,7 @@ function draw()
       //fadeOut();
     }
     */
-    if (transition == true || changeTimer > 300) 
+    if (transition == true || changeTimer > 150 - stageCount*7) 
     {
 
       fadeOut();
@@ -423,15 +424,15 @@ function fadeOut()
 */
 function fadeOut()
 {
-  if (stageCount>7)
+  if (stageCount>20)
   {
     decoys = [];
     stageCount = 0;
     screen+=1;
   }
   stageCount+=1;
-  console.log("Test");
-  target_main.spawnDecoys();
+  console.log(150-stageCount*10);
+  spawnDecoys();
   changeTimer = 0;
 }
 
@@ -490,6 +491,11 @@ function scrollRand()
     steps[j] = (6-currOrder[j]+desOrder[j])*15+j*150-1;//+j*225; // change *15 in tandem with the speed of the scroll // the -1 at the end stops it from offsetting every cycle
     //console.log((6-currOrder[j]+desOrder[j])*30); 
   }
+}
+
+function spawnDecoys()
+{
+  append(decoys, new Decoy_target(target_main.position,50,target_main.velocity));
 }
 
 function touchStarted()
