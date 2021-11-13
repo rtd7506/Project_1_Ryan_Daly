@@ -7,7 +7,7 @@ class Decoy_target
     this.velocity = createVector(dir_.x,dir_.y);
     //this.velocity.normalize();
     this.color = color(random(0,255),random(0,255),random(0,255));
-    this.id = id_; //this ,makes sure it doesn't collide with itself
+    //this.id = id_; //this ,makes sure it doesn't collide with itself
   }
 
   display()
@@ -51,9 +51,12 @@ class Decoy_target
       let d = dist(this.position.x,this.position.y,decoys[i].position.x,decoys[i].position.y);
       if (d < this.size && d != 0)
       {
+        
         let temp = this.velocity;
         this.velocity = decoys[i].velocity;
         decoys[i].velocity = temp;
+        
+
       }
       
       /*
@@ -65,6 +68,7 @@ class Decoy_target
       }
       */
     }
+    
     
     
     this.velocity.limit(2.5);

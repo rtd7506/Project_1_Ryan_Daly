@@ -29,6 +29,7 @@ let lIt = 225
 let lights = [];
 let scrollRate = 0;
 let hallTimer = 0;
+let showArrow = true;
 
 
 function setup() 
@@ -184,7 +185,7 @@ function draw()
       scrollCount = 0;
     }
     */
-    if (scrollCount > 7)
+    if (scrollCount > 5)
     {
       change = true;
       scrollCount = 0;
@@ -301,6 +302,7 @@ function draw()
       lights[i].iterate(scrollRate);
     }
     target(400,225,75,color(255,0,0));
+    /*
     if (mouseX<450 && mouseX>0)
     {
       //console.log(map(mouseX,0,450,0.25,2));
@@ -311,18 +313,42 @@ function draw()
       //console.log(map(mouseX,450,900,2,0.25));
       scrollRate = map(mouseX,450,900,2,0.25);
     }
+    */
+
+    if (dist(mouseX,mouseY,400,225) < 75)
+    {
+      showArrow = false;
+      scrollRate += 0.1;
+      if (scrollRate > 3)
+      {
+        scrollRate = 3;
+      }
+    }
+    else
+    {
+      scrollRate -= 0.1;
+      if (scrollRate < .3)
+      {
+        scrollRate = 0.3;
+      }
+    }
 
     hallTimer +=1;
-    if (hallTimer>500)
+    if (hallTimer>1000)
     {
       change = true;
       hallTimer = 0;
+    }
+
+    if (showArrow == true)
+    {
+      arrow(525+sin(millis()/100)*10, 225,.9);
     }
   }
 
   if (change == true)
   {
-    screenChange(450,225);
+    screenChange(400,225);
   }
 }
 

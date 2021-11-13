@@ -35,15 +35,6 @@ class Scroll
             console.log("Rollback");
             this.scrollDir = -1;
         }
-        else if (this.yInit[2] > 150 && this.yInit[2] < 262.5)
-        {
-            
-            //trueStop = true;
-        }
-        else
-        {
-            
-        }
     }
 
     //((scrolls[i].yInit[0]+75)/5)
