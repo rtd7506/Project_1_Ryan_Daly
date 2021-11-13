@@ -216,6 +216,15 @@ function draw()
         {
           scrolls[j].scroll();
         }
+
+        if (scrolls[2].scrollDir == -1)
+        {
+          if (scrolls[2].yInit[2] == 37.5)
+          {
+            scrolls[2].stop();
+            scrolls[2].scrollDir = 1;
+          }
+        }
         //steps[j]-=1;
         
       }

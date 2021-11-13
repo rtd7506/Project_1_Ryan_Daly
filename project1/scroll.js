@@ -8,6 +8,7 @@ class Scroll
         this.yInit =  [-75, 37.5, 150, 262.5, 375, 487.5] //[-75, 75, 225, 375, 525, 675]
         this.stepCounter = 0;
         this.stopper = 375;
+        this.scrollDir = 1
     }
 
     display() 
@@ -27,18 +28,21 @@ class Scroll
         if ((this.yInit[2]+75)%112.5 == 0 && this.yInit[2] != 150)
         {
             trueStop = true;
-            if (this.yInit[2] > 150 && this.yInit[2] < 225)
-            {
-
-            }
-            else if (this.yInit[2] > 225 && this.yInit[2] < 300)
-            {
-
-            }
-            else
-            {
-                
-            }
+            
+        }
+        if (this.yInit[2] > 37.5 && this.yInit[2] < 150)
+        {
+            console.log("Rollback");
+            this.scrollDir = -1;
+        }
+        else if (this.yInit[2] > 150 && this.yInit[2] < 262.5)
+        {
+            
+            //trueStop = true;
+        }
+        else
+        {
+            
         }
     }
 
@@ -47,9 +51,11 @@ class Scroll
     {
         for (let i = 0; i < 6; i++) 
         {
-            this.yInit[i] += 7.5; //change this variable to change speed
+            this.yInit[i] += 7.5 * this.scrollDir; //change this variable to change speed
         }
     }
+
+
 
     drawShape(x, y, scale, type) 
     {
