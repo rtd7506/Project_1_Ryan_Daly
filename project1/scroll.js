@@ -32,7 +32,7 @@ class Scroll
         }
         if (this.yInit[2] > 37.5 && this.yInit[2] < 150)
         {
-            console.log("Rollback");
+            //console.log("Rollback");
             this.scrollDir = -1;
         }
     }

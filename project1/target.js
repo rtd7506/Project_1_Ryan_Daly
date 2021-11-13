@@ -2,7 +2,7 @@ class Target2
 {
   constructor()
   {
-    this.position = createVector(width/2, height/2);
+    this.position = createVector(width/2, height/2); //Got the new movement script from week 10 code
     this.velocity = createVector();
     this.acceleration = createVector();
     this.topspeed = 5;
@@ -42,7 +42,6 @@ class Target2
   display()
   {
     target(this.position.x, this.position.y,50,color(255,0,0));
-
   }
 
   spawnDecoys()

@@ -7,7 +7,7 @@ class Decoy_target
     this.velocity = createVector(dir_.x,dir_.y);
     //this.velocity.normalize();
     this.color = color(random(0,255),random(0,255),random(0,255));
-    //this.id = id_; //this ,makes sure it doesn't collide with itself
+    //this.id = id_; //this ,makes sure it doesn't collide with itself // not anymore
   }
 
   display()
@@ -48,18 +48,14 @@ class Decoy_target
     
     for (let i=0; i<decoys.length; i++)
     {
-      let d = dist(this.position.x,this.position.y,decoys[i].position.x,decoys[i].position.y);
+      let d = dist(this.position.x,this.position.y,decoys[i].position.x,decoys[i].position.y); //This collisions script doesn't work great for objects that are spawned inside each other but idk how to fix that so this is where it ended up
       if (d < this.size && d != 0)
       {
-        
         let temp = this.velocity;
         this.velocity = decoys[i].velocity;
         decoys[i].velocity = temp;
-        
-
       }
-      
-      /*
+      /* Old attept to fix collision
       if (d < 10 && this.id != i)
       {
         target_main.acceleration.mult(-1);
@@ -68,13 +64,10 @@ class Decoy_target
       }
       */
     }
-    
-    
-    
     this.velocity.limit(2.5);
     this.position.add(this.velocity);
     
-    /*
+    /* Old code from when the main target was a collision object
     if (dist(this.x,this.y,target_main.x,target_main.y) < this.size)
     {
       let temp = this.velocity;

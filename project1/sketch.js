@@ -45,7 +45,7 @@ function setup()
     append(scrolls, new Scroll(287.5+j*112.5))
   }
   steps = [30*2,30*(int(random(1,5))+5),30*(int(random(1,5)+10))]
-  scrollRand();
+  //scrollRand();
   //steps = [30,180,330];
   for (let i = 0; i <12; i++)
   {
@@ -113,11 +113,11 @@ function draw()
     //target(735,65,75,color(255,0,0));
     if (transition == true || changeTimer > 150 - stageCount*7) 
     {
-
       fadeOut();
-    }
-    else {
       
+    }
+    else 
+    {
       for (let i = 0; i < decoys.length; i++) 
       {
         decoys[i].bounce();
@@ -254,7 +254,6 @@ function draw()
       stroke(155,0,0);
       rotate(sin(scrollTimer/3)/5); // MAKES THE BUTTON WIGGLE
     }
-    
     rect(0,0,65,65);
     pop()
 
@@ -266,7 +265,7 @@ function draw()
       scrolls[2].stop();
       autoTimer = 0;
     }
-    console.log(start);
+    //console.log(start);
     if (start == true)
     {
       autoTimer+=1;
@@ -315,6 +314,7 @@ function draw()
     }
     */
 
+    //New movement system
     if (dist(mouseX,mouseY,400,225) < 75)
     {
       showArrow = false;
@@ -373,7 +373,7 @@ function doors()
   quad(400 + x1/8, 225 + y1/8, 400 + x2/8, 225 + y2/8, 400 + x2/8, 225 - y2/8, 400 + x1/8, 225 - y1/8);
 }
 */
-
+/* Old UI for Screen 1
 function scrollUI()
 {
   //UI
@@ -436,7 +436,7 @@ function scrollUI()
     target(625,145,75,color(255,0,0));
   }
 }
-
+*/
 function screenChange(x,y)
 {
   tTimer+=40;
@@ -522,14 +522,15 @@ function fadeOut()
   {
     decoys = [];
     stageCount = 0;
-    screen+=1;
+    change = true;
+    //screen+=1;
   }
   stageCount+=1;
-  console.log(150-stageCount*10);
+  //console.log(150-stageCount*10);
   target_main.spawnDecoys();
   changeTimer = 0;
 }
-
+/* Initial tests
 function test1()
 {
   if(dist(tx,ty,mouseX,mouseY) < 100)
@@ -545,8 +546,9 @@ function test1()
   background(0);
   ellipse(tx,ty,50,50);
 }
-
-function scrollRand()
+*/
+/* Old scrolling system, I still really like it but the new one is more clear
+function scrollRand() 
 {
   scrollCount+=1;
   //console.log(scrollCount);
@@ -586,7 +588,7 @@ function scrollRand()
     //console.log((6-currOrder[j]+desOrder[j])*30); 
   }
 }
-
+*/
 
 
 function touchStarted()
